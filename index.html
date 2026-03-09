@@ -11,6 +11,8 @@
         href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Sarabun:wght@300;400;500&family=Kanit:wght@300;400;500;600&family=Prompt:wght@300;400;500;600&family=Charm:wght@400;700&family=Itim&family=Kodchasan:wght@300;400;500;600&family=Krub:wght@300;400;500;600&family=Mali:wght@300;400;500;600&family=Noto+Sans+Thai:wght@300;400;500;600&family=Noto+Serif+Thai:wght@300;400;500;600&family=Pridi:wght@300;400;500;600&family=Taviraj:wght@300;400;500;600&family=Trirong:wght@300;400;500;600&family=Srisakdi:wght@400;700&family=Bai+Jamjuree:wght@300;400;500;600&family=Chonburi&family=Athiti:wght@300;400;500;600&family=Fahkwang:wght@300;400;500;600&family=K2D:wght@300;400;500;600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         :root {
             /* ===== สีหลัก ===== */
@@ -1559,13 +1561,13 @@
         <div class="login-box">
             <div style="text-align:center;margin-bottom:24px;">
                 <div style="font-size:2.5rem;margin-bottom:8px;">🔐</div>
-                <h2 style="color:var(--main);font-size:1.3rem;">Fumiko Admin</h2>
+                <h2 style="color:var(--main);font-size:1.3rem;">Admin</h2>
                 <p style="font-size:0.82rem;color:rgba(255,255,255,0.5);margin-top:4px;">กรุณาเข้าสู่ระบบ</p>
             </div>
             <input type="text" id="login-user" class="admin-input" placeholder="Username">
             <input type="password" id="login-pass" class="admin-input" placeholder="Password">
             <div style="display:flex;gap:10px;margin-top:8px;">
-                <button onclick="doLogin()" class="admin-btn-save" style="flex:1;">เข้าสู่ระบบ ✨</button>
+                <button onclick="doLogin()" class="admin-btn-save" style="flex:1;">เข้าสู่ระบบ</button>
                 <button onclick="closeLogin()" class="admin-btn-add" style="flex:1;">ยกเลิก</button>
             </div>
         </div>
@@ -1695,6 +1697,50 @@
                         <div style="display:flex;gap:6px;align-items:center;"><input type="color" id="color-bg"
                                 class="color-swatch" onchange="syncColorText('bg',this.value)"><input type="text"
                                 id="color-bg-text" class="color-text" oninput="syncColorPicker('bg',this.value)"></div>
+                    </div>
+                </div>
+
+                <div class="admin-section">
+                    <div class="admin-section-title">🖼️ พื้นหลังแบบรูปภาพ</div>
+                    <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+                        <label style="display:flex;align-items:center;gap:8px;">
+                            <input type="radio" name="bg-type" id="bg-type-color" value="color" checked onchange="toggleBgType()">
+                            <span style="color:var(--white);">ใช้สีพื้นหลัง</span>
+                        </label>
+                        <label style="display:flex;align-items:center;gap:8px;">
+                            <input type="radio" name="bg-type" id="bg-type-image" value="image" onchange="toggleBgType()">
+                            <span style="color:var(--white);">ใช้รูปภาพ</span>
+                        </label>
+                    </div>
+                    <div id="bg-image-settings" style="display:none;">
+                        <input type="text" id="bg-image-url" class="admin-input" placeholder="URL รูปภาพพื้นหลัง"
+                            onchange="updateBgImage()">
+                        <div style="display:flex;gap:8px;margin-top:8px;">
+                            <select id="bg-image-size" class="admin-input" style="width:100px;" onchange="updateBgImage()">
+                                <option value="cover">cover</option>
+                                <option value="contain">contain</option>
+                                <option value="auto">auto</option>
+                            </select>
+                            <select id="bg-image-repeat" class="admin-input" style="width:100px;" onchange="updateBgImage()">
+                                <option value="no-repeat">no-repeat</option>
+                                <option value="repeat">repeat</option>
+                                <option value="repeat-x">repeat-x</option>
+                                <option value="repeat-y">repeat-y</option>
+                            </select>
+                            <select id="bg-image-position" class="admin-input" style="width:120px;" onchange="updateBgImage()">
+                                <option value="center">center</option>
+                                <option value="top">top</option>
+                                <option value="bottom">bottom</option>
+                                <option value="left">left</option>
+                                <option value="right">right</option>
+                            </select>
+                        </div>
+                        <div style="margin-top:10px;padding:10px;background:rgba(255,255,255,0.05);border-radius:10px;">
+                            <div style="font-size:0.82rem;color:var(--dark);margin-bottom:5px;">ตัวอย่าง:</div>
+                            <div id="bg-image-preview"
+                                style="width:100%;height:100px;border-radius:8px;border:1px solid var(--main);background-size:cover;background-position:center;">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -2195,20 +2241,29 @@
             return `rgba(${r},${g},${b},${a})`;
         }
         function saveColors() {
-            const c = {};
-            HEX_VARS.forEach(k => {
-                const el = document.getElementById('color-' + k + '-text') || document.getElementById('color-' + k + '-text');
-                if (el) c[k] = el.value;
-            });
-            // RGBA vars
-            ['card-bg', 'text-body', 'text-muted', 'gh-sub-color', 'footer-text-color'].forEach(k => {
-                const el = document.getElementById('color-' + k + '-text');
-                if (el) c[k] = el.value;
-            });
-            localStorage.setItem(COLOR_KEY, JSON.stringify(c));
-            applyColors(c);
-            showToast('🎨 บันทึกสีทั้งหมดเรียบร้อย');
-        }
+                const c = {};
+
+                HEX_VARS.forEach(k => {
+                    const el = document.getElementById('color-' + k + '-text') || document.getElementById('color-' + k + '-text');
+                    if (el) c[k] = el.value;
+                });
+
+                ['card-bg', 'text-body', 'text-muted', 'gh-sub-color', 'footer-text-color'].forEach(k => {
+                    const el = document.getElementById('color-' + k + '-text');
+                    if (el) c[k] = el.value;
+                });
+
+                localStorage.setItem(COLOR_KEY, JSON.stringify(c));
+                applyColors(c);
+
+                // ถ้าใช้สีพื้นหลังอยู่ ให้อัปเดต
+                const config = getBgImageConfig();
+                if (config.type === 'color') {
+                    applyBgImage();
+                }
+
+                showToast('🎨 บันทึกสีทั้งหมดเรียบร้อย');
+            }
         function resetColors() {
             localStorage.removeItem(COLOR_KEY);
             applyColors(DEFAULT_COLORS);
@@ -2282,15 +2337,22 @@
         }
         function saveFont() { localStorage.setItem(FONT_KEY, selectedFont); applyFont(selectedFont); showToast('✅ บันทึกฟอนต์แล้ว'); }
 
-        // ===================== CONTACT STYLES =====================
+        // ===================== CONTACT STYLES (ปรับปรุงใหม่ให้กระชับ) =====================
         const CONTACT_STYLES = [
-            { id: 'fb', label: 'Facebook', icon: '📘', cssClass: 'btn-fb' }, { id: 'line', label: 'Line', icon: '💬', cssClass: 'btn-line' },
-            { id: 'ig', label: 'Instagram', icon: '📸', cssClass: 'btn-ig' }, { id: 'tw', label: 'Twitter/X', icon: '🐦', cssClass: 'btn-tw' },
-            { id: 'tt', label: 'TikTok', icon: '🎵', cssClass: 'btn-tt' }, { id: 'yt', label: 'YouTube', icon: '▶️', cssClass: 'btn-yt' },
-            { id: 'discord', label: 'Discord', icon: '🎮', cssClass: 'btn-discord' }, { id: 'email', label: 'Email', icon: '📧', cssClass: 'btn-email' },
-            { id: 'custom', label: 'Custom', icon: '⭐', cssClass: 'btn-custom' }
+            { id: 'fb', label: 'Facebook', icon: '<i class="fab fa-facebook-f"></i>', cssClass: 'btn-fb' },
+            { id: 'line', label: 'Line', icon: '<i class="fab fa-line"></i>', cssClass: 'btn-line' },
+            { id: 'ig', label: 'Instagram', icon: '<i class="fab fa-instagram"></i>', cssClass: 'btn-ig' },
+            { id: 'tw', label: 'Twitter/X', icon: '<i class="fab fa-x-twitter"></i>', cssClass: 'btn-tw' },
+            { id: 'tt', label: 'TikTok', icon: '<i class="fab fa-tiktok"></i>', cssClass: 'btn-tt' },
+            { id: 'yt', label: 'YouTube', icon: '<i class="fab fa-youtube"></i>', cssClass: 'btn-yt' },
+            { id: 'discord', label: 'Discord', icon: '<i class="fab fa-discord"></i>', cssClass: 'btn-discord' },
+            { id: 'email', label: 'Email', icon: '<i class="fas fa-envelope"></i>', cssClass: 'btn-email' },
+            { id: 'custom', label: 'Custom', icon: '<i class="fas fa-star"></i>', cssClass: 'btn-custom' }
         ];
-        function getStyleById(id) { return CONTACT_STYLES.find(s => s.id === id) || CONTACT_STYLES[CONTACT_STYLES.length - 1]; }
+
+        function getStyleById(id) {
+            return CONTACT_STYLES.find(s => s.id === id) || CONTACT_STYLES[CONTACT_STYLES.length - 1];
+        }
 
         // ===================== MODAL / TOAST =====================
         function showModal({ icon = '', title = '', html = '', confirmText = 'ตกลง', cancelText = null, dangerConfirm = false, timer }) {
@@ -2434,8 +2496,8 @@
                 allGroupsSections: [],
                 contact: {
                     buttons: [
-                        { icon: '📘', text: 'Facebook', link: '#', style: 'fb' },
-                        { icon: '💬', text: 'Line', link: '#', style: 'line' }
+                        { icon: '<i class="fab fa-facebook-f"></i>', text: 'Facebook', link: '#', style: 'fb' },
+                        { icon: '<i class="fab fa-line"></i>', text: 'Line', link: '#', style: 'line' }
                     ],
                     note: 'รายละเอียดเพิ่มเติมถ้ามี'
                 },
@@ -2727,16 +2789,16 @@
         <div class="contact-btn-preview ${st.cssClass}" id="cp-${i}">${btn.icon} ${btn.text}</div>
         <p style="font-size:0.78rem;color:rgba(255,255,255,0.4);margin-bottom:8px;">สีปุ่ม:</p>
         <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;">${chips}</div>
-        <div class="item-row"><input type="text" class="admin-input" placeholder="ไอคอน" value="${btn.icon}" style="max-width:70px;" oninput="updateContactBtn(${i},'icon',this.value)"><input type="text" class="admin-input" placeholder="ข้อความ" value="${btn.text}" oninput="updateContactBtn(${i},'text',this.value)"></div>
+        <div class="item-row"><input type="text" class="admin-input" placeholder="ไอคอน HTML" value='${btn.icon}' style="max-width:70px;" oninput="updateContactBtn(${i},'icon',this.value)"><input type="text" class="admin-input" placeholder="ข้อความ" value="${btn.text}" oninput="updateContactBtn(${i},'text',this.value)"></div>
         <input type="text" class="admin-input" placeholder="ลิงก์ URL" value="${btn.link}" oninput="updateContactBtn(${i},'link',this.value)">`;
                 list.appendChild(div);
             });
             const note = document.getElementById('a-contact-note'); if (note) note.value = d.contact.note || '';
         }
-        function updateContactBtn(i, f, v) { const d = loadData(); d.contact.buttons[i][f] = v; const st = getStyleById(d.contact.buttons[i].style); const p = document.getElementById('cp-' + i); if (p) { p.className = 'contact-btn-preview ' + st.cssClass; p.textContent = d.contact.buttons[i].icon + ' ' + d.contact.buttons[i].text; } saveData(d, false, false); }
+        function updateContactBtn(i, f, v) { const d = loadData(); d.contact.buttons[i][f] = v; const st = getStyleById(d.contact.buttons[i].style); const p = document.getElementById('cp-' + i); if (p) { p.className = 'contact-btn-preview ' + st.cssClass; p.innerHTML = d.contact.buttons[i].icon + ' ' + d.contact.buttons[i].text; } saveData(d, false, false); }
         function updateContactBtnStyle(i, sid) { const d = loadData(); d.contact.buttons[i].style = sid; saveData(d, false, false); renderContactAdmin(); }
         function deleteContactBtn(i) { showModal({ icon: 'warning', title: 'ยืนยันลบ', html: 'ลบปุ่มนี้?', confirmText: 'ใช่', cancelText: 'ยกเลิก', dangerConfirm: true }).then(r => { if (r.isConfirmed) { const d = loadData(); d.contact.buttons.splice(i, 1); saveData(d, true, true); renderContactAdmin(); } }); }
-        function addContactBtn() { const d = loadData(); if (!d.contact.buttons) d.contact.buttons = []; d.contact.buttons.push({ icon: '📌', text: 'ปุ่มใหม่', link: '#', style: 'custom' }); saveData(d, true, true); renderContactAdmin(); }
+        function addContactBtn() { const d = loadData(); if (!d.contact.buttons) d.contact.buttons = []; d.contact.buttons.push({ icon: '<i class="fas fa-star"></i>', text: 'ปุ่มใหม่', link: '#', style: 'custom' }); saveData(d, true, true); renderContactAdmin(); }
         function saveContact() { const d = loadData(); d.contact.note = document.getElementById('a-contact-note').value; saveData(d, true, true); }
 
         // ===================== UPDATE FUNCTIONS =====================
@@ -2816,28 +2878,34 @@
         // ===================== ADMIN OPEN/CLOSE =====================
         function getCreds() { try { return JSON.parse(localStorage.getItem(ADMIN_CREDS_KEY)) || { user: 'admin', pass: 'admin2026' }; } catch { return { user: 'admin', pass: 'admin2026' }; } }
         function openAdmin() {
-            if (!isAdminLoggedIn) { document.getElementById('login-overlay').classList.add('show'); setTimeout(() => document.getElementById('login-user').focus(), 100); return; }
-            const d = loadData();
-            document.getElementById('a-logo-img').value = d.header.logoImg || '';
-            document.getElementById('a-shop-name').value = d.header.shopName || '';
-            document.getElementById('a-shop-desc').value = d.header.shopDesc || '';
-            document.getElementById('a-status-text').value = d.header.statusText || '';
-            document.getElementById('a-queue-text').value = d.header.queueText || '';
-            document.getElementById('a-queue-link').value = d.header.queueLink || '';
-            document.getElementById('a-detail-title').value = d.header.detailTitle || '';
-            document.getElementById('a-detail-img').value = d.header.detailImg || '';
-            document.getElementById('a-footer-name').value = d.footer.name || '';
-            document.getElementById('a-footer-text').value = d.footer.text || '';
-            const gs = getGsConfig();
-            document.getElementById('gs-webapp-url').value = gs.webAppUrl || '';
-            document.getElementById('gs-sheet-id').value = gs.sheetId || '';
-            document.getElementById('gs-api-key').value = gs.apiKey || '';
-            fillColorAdmin(loadColors());
-            renderAdminSections();
-            renderContactAdmin();
-            renderFontGrid();
-            document.getElementById('admin-overlay').classList.add('show');
-        }
+                if (!isAdminLoggedIn) {
+                    document.getElementById('login-overlay').classList.add('show');
+                    setTimeout(() => document.getElementById('login-user').focus(), 100);
+                    return;
+                }
+
+                const d = loadData();
+                document.getElementById('a-logo-img').value = d.header.logoImg || '';
+                document.getElementById('a-shop-name').value = d.header.shopName || '';
+                document.getElementById('a-shop-desc').value = d.header.shopDesc || '';
+                document.getElementById('a-status-text').value = d.header.statusText || '';
+                document.getElementById('a-queue-text').value = d.header.queueText || '';
+                document.getElementById('a-queue-link').value = d.header.queueLink || '';
+                document.getElementById('a-detail-title').value = d.header.detailTitle || '';
+                document.getElementById('a-detail-img').value = d.header.detailImg || '';
+                document.getElementById('a-footer-name').value = d.footer.name || '';
+                document.getElementById('a-footer-text').value = d.footer.text || '';
+                const gs = getGsConfig();
+                document.getElementById('gs-webapp-url').value = gs.webAppUrl || '';
+                document.getElementById('gs-sheet-id').value = gs.sheetId || '';
+                document.getElementById('gs-api-key').value = gs.apiKey || '';
+                fillColorAdmin(loadColors());
+                loadBgImageSettings();
+                renderAdminSections();
+                renderContactAdmin();
+                renderFontGrid();
+                document.getElementById('admin-overlay').classList.add('show');
+            }
         function closeAdmin() { document.getElementById('admin-overlay').classList.remove('show'); }
         function closeLogin() { document.getElementById('login-overlay').classList.remove('show'); document.getElementById('login-user').value = ''; document.getElementById('login-pass').value = ''; }
         function doLogin() {
@@ -2984,24 +3052,162 @@
             });
         }
 
-        // ===================== INIT =====================
-        async function initApp() {
-            applyFont(selectedFont);
-            applyColors(loadColors());
+        // ===================== BACKGROUND IMAGE ===================== 👈 วางตรงนี้
+            const BG_IMAGE_KEY = 'fumiko_bg_image';
 
-            const gsUrl = GS_WEBAPP_URL || (() => {
-                try { return JSON.parse(localStorage.getItem(GS_CONFIG_KEY) || '{}').webAppUrl || ''; } catch { return ''; }
-            })();
-
-            if (gsUrl) {
-                const ok = await loadFromGoogleSheets(false);
-                if (ok) console.log('✅ Loaded from Google Sheets');
-                else console.warn('⚠️ Using cached/default data');
+            function getBgImageConfig() {
+                try {
+                    return JSON.parse(localStorage.getItem(BG_IMAGE_KEY)) || {
+                        type: 'color',
+                        url: '',
+                        size: 'cover',
+                        repeat: 'no-repeat',
+                        position: 'center'
+                    };
+                } catch {
+                    return {
+                        type: 'color',
+                        url: '',
+                        size: 'cover',
+                        repeat: 'no-repeat',
+                        position: 'center'
+                    };
+                }
             }
 
-            renderSite();
-            document.getElementById('loading-overlay').classList.add('hidden');
-        }
+            function applyBgImage() {
+                const config = getBgImageConfig();
+                const body = document.body;
+
+                if (config.type === 'image' && config.url) {
+                    body.style.backgroundImage = `url('${config.url}')`;
+                    body.style.backgroundSize = config.size;
+                    body.style.backgroundRepeat = config.repeat;
+                    body.style.backgroundPosition = config.position;
+                    body.style.backgroundAttachment = 'fixed';
+
+                    if (!document.getElementById('bg-overlay')) {
+                        const overlay = document.createElement('div');
+                        overlay.id = 'bg-overlay';
+                        overlay.style.cssText = `
+                        position: fixed;
+                        inset: 0;
+                        background: rgba(0,0,0,0.5);
+                        pointer-events: none;
+                        z-index: 0;
+                    `;
+                        body.appendChild(overlay);
+                    }
+                } else {
+                    body.style.backgroundImage = '';
+                    body.style.backgroundSize = '';
+                    body.style.backgroundRepeat = '';
+                    body.style.backgroundPosition = '';
+                    const overlay = document.getElementById('bg-overlay');
+                    if (overlay) overlay.remove();
+
+                    const colors = loadColors();
+                    body.style.background = colors.bg;
+                }
+            }
+
+            function toggleBgType() {
+                const typeColor = document.getElementById('bg-type-color');
+                const typeImage = document.getElementById('bg-type-image');
+                const imageSettings = document.getElementById('bg-image-settings');
+
+                if (typeImage.checked) {
+                    imageSettings.style.display = 'block';
+                } else {
+                    imageSettings.style.display = 'none';
+                }
+
+                const config = getBgImageConfig();
+                config.type = typeImage.checked ? 'image' : 'color';
+                localStorage.setItem(BG_IMAGE_KEY, JSON.stringify(config));
+
+                if (typeImage.checked) {
+                    updateBgImage();
+                } else {
+                    applyBgImage();
+                }
+            }
+
+            function updateBgImage() {
+                const url = document.getElementById('bg-image-url').value.trim();
+                const size = document.getElementById('bg-image-size').value;
+                const repeat = document.getElementById('bg-image-repeat').value;
+                const position = document.getElementById('bg-image-position').value;
+
+                const config = {
+                    type: 'image',
+                    url: url,
+                    size: size,
+                    repeat: repeat,
+                    position: position
+                };
+
+                localStorage.setItem(BG_IMAGE_KEY, JSON.stringify(config));
+
+                const preview = document.getElementById('bg-image-preview');
+                if (preview && url) {
+                    preview.style.backgroundImage = `url('${url}')`;
+                    preview.style.backgroundSize = size;
+                    preview.style.backgroundRepeat = repeat;
+                    preview.style.backgroundPosition = position;
+                }
+
+                applyBgImage();
+            }
+
+            function loadBgImageSettings() {
+                const config = getBgImageConfig();
+
+                if (config.type === 'image') {
+                    document.getElementById('bg-type-image').checked = true;
+                    document.getElementById('bg-image-settings').style.display = 'block';
+                } else {
+                    document.getElementById('bg-type-color').checked = true;
+                    document.getElementById('bg-image-settings').style.display = 'none';
+                }
+
+                document.getElementById('bg-image-url').value = config.url || '';
+                document.getElementById('bg-image-size').value = config.size || 'cover';
+                document.getElementById('bg-image-repeat').value = config.repeat || 'no-repeat';
+                document.getElementById('bg-image-position').value = config.position || 'center';
+
+                const preview = document.getElementById('bg-image-preview');
+                if (preview && config.url) {
+                    preview.style.backgroundImage = `url('${config.url}')`;
+                    preview.style.backgroundSize = config.size;
+                    preview.style.backgroundRepeat = config.repeat;
+                    preview.style.backgroundPosition = config.position;
+                }
+            }
+
+        // ===================== INIT =====================
+        async function initApp() {
+                applyFont(selectedFont);
+                applyColors(loadColors());
+                applyBgImage(); // เพิ่มบรรทัดนี้
+
+                const gsUrl = GS_WEBAPP_URL || (() => {
+                    try {
+                        return JSON.parse(localStorage.getItem(GS_CONFIG_KEY) || '{}').webAppUrl || '';
+                    } catch {
+                        return '';
+                    }
+                })();
+
+                if (gsUrl) {
+                    const ok = await loadFromGoogleSheets(false);
+                    if (ok) console.log('✅ Loaded from Google Sheets');
+                    else console.warn('⚠️ Using cached/default data');
+                }
+
+                renderSite();
+                document.getElementById('loading-overlay').classList.add('hidden');
+            }
 
         // Event Listeners
         document.getElementById('admin-fab').addEventListener('click', openAdmin);
