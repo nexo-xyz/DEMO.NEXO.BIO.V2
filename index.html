@@ -1704,11 +1704,13 @@
                     <div class="admin-section-title">🖼️ พื้นหลังแบบรูปภาพ</div>
                     <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
                         <label style="display:flex;align-items:center;gap:8px;">
-                            <input type="radio" name="bg-type" id="bg-type-color" value="color" checked onchange="toggleBgType()">
+                            <input type="radio" name="bg-type" id="bg-type-color" value="color" checked
+                                onchange="toggleBgType()">
                             <span style="color:var(--white);">ใช้สีพื้นหลัง</span>
                         </label>
                         <label style="display:flex;align-items:center;gap:8px;">
-                            <input type="radio" name="bg-type" id="bg-type-image" value="image" onchange="toggleBgType()">
+                            <input type="radio" name="bg-type" id="bg-type-image" value="image"
+                                onchange="toggleBgType()">
                             <span style="color:var(--white);">ใช้รูปภาพ</span>
                         </label>
                     </div>
@@ -1716,18 +1718,21 @@
                         <input type="text" id="bg-image-url" class="admin-input" placeholder="URL รูปภาพพื้นหลัง"
                             onchange="updateBgImage()">
                         <div style="display:flex;gap:8px;margin-top:8px;">
-                            <select id="bg-image-size" class="admin-input" style="width:100px;" onchange="updateBgImage()">
+                            <select id="bg-image-size" class="admin-input" style="width:100px;"
+                                onchange="updateBgImage()">
                                 <option value="cover">cover</option>
                                 <option value="contain">contain</option>
                                 <option value="auto">auto</option>
                             </select>
-                            <select id="bg-image-repeat" class="admin-input" style="width:100px;" onchange="updateBgImage()">
+                            <select id="bg-image-repeat" class="admin-input" style="width:100px;"
+                                onchange="updateBgImage()">
                                 <option value="no-repeat">no-repeat</option>
                                 <option value="repeat">repeat</option>
                                 <option value="repeat-x">repeat-x</option>
                                 <option value="repeat-y">repeat-y</option>
                             </select>
-                            <select id="bg-image-position" class="admin-input" style="width:120px;" onchange="updateBgImage()">
+                            <select id="bg-image-position" class="admin-input" style="width:120px;"
+                                onchange="updateBgImage()">
                                 <option value="center">center</option>
                                 <option value="top">top</option>
                                 <option value="bottom">bottom</option>
@@ -2158,7 +2163,7 @@
                     <div class="admin-section-title" style="color:#ff6060;"><i class="fas fa-exclamation-triangle"></i>
                         Danger Zone</div>
                     <p style="font-size:0.83rem;color:rgba(255,255,255,0.5);margin-bottom:12px;">รีเซ็ต Username &
-                        Password กลับเป็นค่าเริ่มต้น (<b style="color:rgba(255,255,255,0.7);">admin / fumiko2026</b>)
+                        Password กลับเป็นค่าเริ่มต้น (<b style="color:rgba(255,255,255,0.7);">admin / admin2026</b>)
                     </p>
                     <button onclick="resetCreds()" class="admin-btn-del" style="padding:10px 20px;font-size:0.88rem;"><i
                             class="fas fa-undo"></i> รีเซ็ตเป็นค่าเริ่มต้น</button>
@@ -2169,7 +2174,7 @@
 
     <script>
         // ===================== CONFIG =====================
-        const GS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyo0_uvAQW8Wmd8yooMJni0SSBN9j_ETPz6kn7jJkjuJvWh72F_or6OA0v4zbIWiE09/exec'; // ใส่ URL ของคุณ
+        const GS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbzI_7KUS84sI2pm-w1K0Kb-eojJq1Fef1ZJx5mLyZbP16cIcGMz5WPBSSd66fA8aMaI/exec'; // ใส่ URL ของคุณหลัง Deploy
         const DATA_KEY = 'fumiko_data';
         const COLOR_KEY = 'fumiko_colors';
         const FONT_KEY = 'fumiko_font';
@@ -2241,33 +2246,44 @@
             return `rgba(${r},${g},${b},${a})`;
         }
         function saveColors() {
-                const c = {};
+            const c = {};
 
-                HEX_VARS.forEach(k => {
-                    const el = document.getElementById('color-' + k + '-text') || document.getElementById('color-' + k + '-text');
-                    if (el) c[k] = el.value;
-                });
+            HEX_VARS.forEach(k => {
+                const el = document.getElementById('color-' + k + '-text') || document.getElementById('color-' + k + '-text');
+                if (el) c[k] = el.value;
+            });
 
-                ['card-bg', 'text-body', 'text-muted', 'gh-sub-color', 'footer-text-color'].forEach(k => {
-                    const el = document.getElementById('color-' + k + '-text');
-                    if (el) c[k] = el.value;
-                });
+            ['card-bg', 'text-body', 'text-muted', 'gh-sub-color', 'footer-text-color'].forEach(k => {
+                const el = document.getElementById('color-' + k + '-text');
+                if (el) c[k] = el.value;
+            });
 
-                localStorage.setItem(COLOR_KEY, JSON.stringify(c));
-                applyColors(c);
+            localStorage.setItem(COLOR_KEY, JSON.stringify(c));
+            applyColors(c);
 
-                // ถ้าใช้สีพื้นหลังอยู่ ให้อัปเดต
-                const config = getBgImageConfig();
-                if (config.type === 'color') {
-                    applyBgImage();
-                }
-
-                showToast('🎨 บันทึกสีทั้งหมดเรียบร้อย');
+            // ถ้าใช้สีพื้นหลังอยู่ ให้อัปเดต
+            const config = getBgImageConfig();
+            if (config.type === 'color') {
+                applyBgImage();
             }
+
+            // บันทึกลง data ด้วย
+            const data = loadData();
+            data.colors = c;
+            saveData(data, false, false);
+
+            showToast('🎨 บันทึกสีทั้งหมดเรียบร้อย');
+        }
         function resetColors() {
             localStorage.removeItem(COLOR_KEY);
             applyColors(DEFAULT_COLORS);
             fillColorAdmin(DEFAULT_COLORS);
+
+            // บันทึกลง data ด้วย
+            const data = loadData();
+            data.colors = DEFAULT_COLORS;
+            saveData(data, false, false);
+
             showToast('↩️ รีเซ็ตสีเป็นค่าเริ่มต้นแล้ว');
         }
         function fillColorAdmin(c) {
@@ -2335,9 +2351,19 @@
                 c.appendChild(d);
             });
         }
-        function saveFont() { localStorage.setItem(FONT_KEY, selectedFont); applyFont(selectedFont); showToast('✅ บันทึกฟอนต์แล้ว'); }
+        function saveFont() {
+            localStorage.setItem(FONT_KEY, selectedFont);
+            applyFont(selectedFont);
 
-        // ===================== CONTACT STYLES (ปรับปรุงใหม่ให้กระชับ) =====================
+            // บันทึกลง data ด้วย
+            const data = loadData();
+            data.font = selectedFont;
+            saveData(data, false, false);
+
+            showToast('✅ บันทึกฟอนต์แล้ว');
+        }
+
+        // ===================== CONTACT STYLES =====================
         const CONTACT_STYLES = [
             { id: 'fb', label: 'Facebook', icon: '<i class="fab fa-facebook-f"></i>', cssClass: 'btn-fb' },
             { id: 'line', label: 'Line', icon: '<i class="fab fa-line"></i>', cssClass: 'btn-line' },
@@ -2408,6 +2434,8 @@
                 document.body.appendChild(s);
             });
         }
+
+        // 🔥 แก้ไข: โหลดจาก Google Sheets และเขียนทับ LocalStorage เสมอ
         async function loadFromGoogleSheets(showUI) {
             const cfg = getGsConfig(), url = cfg.webAppUrl;
             if (!url) {
@@ -2418,7 +2446,27 @@
             try {
                 const r = await fetchViaJsonp(url.replace(/\/$/, '') + '?action=getData', 10000);
                 if (r && r.status === 'success' && r.data) {
+                    // 🔥 เขียนทับ LocalStorage ทันที
                     localStorage.setItem(DATA_KEY, JSON.stringify(r.data));
+
+                    // โหลดการตั้งค่าพื้นหลัง
+                    if (r.data.bgImage) {
+                        localStorage.setItem(BG_IMAGE_KEY, JSON.stringify(r.data.bgImage));
+                    }
+
+                    // โหลดสี
+                    if (r.data.colors) {
+                        localStorage.setItem(COLOR_KEY, JSON.stringify(r.data.colors));
+                        applyColors(r.data.colors);
+                    }
+
+                    // โหลดฟอนต์
+                    if (r.data.font) {
+                        localStorage.setItem(FONT_KEY, r.data.font);
+                        selectedFont = r.data.font;
+                        applyFont(r.data.font);
+                    }
+
                     if (showUI) {
                         showToast('✅ โหลดข้อมูลสำเร็จ');
                         renderSite();
@@ -2432,18 +2480,53 @@
                 return false;
             }
         }
+
+        // 🔥 แก้ไข: บันทึกไป Google Sheets และรอผลลัพธ์
         async function saveToGoogleSheets(data) {
             const cfg = getGsConfig();
-            if (!cfg.webAppUrl) return false;
+            if (!cfg.webAppUrl) {
+                console.warn('No Google Sheets URL configured');
+                return false;
+            }
+
             try {
-                await fetch(cfg.webAppUrl, {
-                    method: 'POST', mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'updateData', data })
+                return new Promise((resolve, reject) => {
+                    const callback = 'jsonp_save_' + Math.round(1e6 * Math.random());
+                    const url = cfg.webAppUrl.replace(/\/$/, '') +
+                        '?action=updateData&callback=' + callback +
+                        '&data=' + encodeURIComponent(JSON.stringify(data));
+
+                    window[callback] = (response) => {
+                        delete window[callback];
+                        if (response && response.status === 'success') {
+                            resolve(true);
+                        } else {
+                            resolve(false);
+                        }
+                    };
+
+                    const script = document.createElement('script');
+                    script.src = url;
+                    script.onerror = () => {
+                        delete window[callback];
+                        resolve(false);
+                    };
+                    document.body.appendChild(script);
+
+                    // timeout 5 วินาที
+                    setTimeout(() => {
+                        if (window[callback]) {
+                            delete window[callback];
+                            resolve(false);
+                        }
+                    }, 5000);
                 });
-                return true;
-            } catch { return false; }
+            } catch (e) {
+                console.error('Save to Sheets error:', e);
+                return false;
+            }
         }
+
         async function testGsConnection() {
             const s = document.getElementById('gs-status');
             s.style.display = 'inline-flex'; s.className = 'gs-loading';
@@ -2501,9 +2584,20 @@
                     ],
                     note: 'รายละเอียดเพิ่มเติมถ้ามี'
                 },
-                footer: { name: 'NEXO ✦', text: '' }
+                footer: { name: 'NEXO ✦', text: '' },
+                // 🔥 เพิ่มส่วนเก็บการตั้งค่าต่างๆ
+                bgImage: {
+                    type: 'color',
+                    url: '',
+                    size: 'cover',
+                    repeat: 'no-repeat',
+                    position: 'center'
+                },
+                colors: DEFAULT_COLORS,
+                font: 'Mitr'
             };
         }
+
         function loadData() {
             try {
                 const r = localStorage.getItem(DATA_KEY);
@@ -2516,18 +2610,48 @@
                 return { ...d, ...p };
             } catch { return getInitialData(); }
         }
+
+        // 🔥 แก้ไข: บันทึกข้อมูลและอัปโหลดไป Sheets ทันที
         async function saveData(data, notify, addHist) {
             if (notify === undefined) notify = true;
             if (addHist === undefined) addHist = true;
             try {
+                // บันทึกการตั้งค่าต่างๆ
                 localStorage.setItem(DATA_KEY, JSON.stringify(data));
+
+                // บันทึกการตั้งค่าพื้นหลังแยก
+                const bgConfig = getBgImageConfig();
+                data.bgImage = bgConfig;
+
+                // บันทึกสี
+                const colors = loadColors();
+                data.colors = colors;
+
+                // บันทึกฟอนต์
+                data.font = selectedFont;
+
+                // อัปเดต LocalStorage อีกครั้ง
+                localStorage.setItem(DATA_KEY, JSON.stringify(data));
+
                 if (addHist) addToHistory(data);
-                saveToGoogleSheets(data); // fire-and-forget
+
+                // 🔥 อัปโหลดไป Google Sheets ทันที (รอให้เสร็จ)
+                const uploaded = await saveToGoogleSheets(data);
+                if (!uploaded) {
+                    console.warn('⚠️ Failed to upload to Google Sheets');
+                    if (notify) showToast('⚠️ บันทึกในเครื่องสำเร็จ แต่ไม่สามารถอัปโหลดไป Sheets', 'warning');
+                }
+
                 if (notify) showToast('✅ บันทึกเรียบร้อย');
                 renderSite();
                 return true;
-            } catch { return false; }
+            } catch (e) {
+                console.error('Save error:', e);
+                if (notify) showToast('❌ บันทึกไม่สำเร็จ', 'error');
+                return false;
+            }
         }
+
         function addToHistory(data) {
             try {
                 const h = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
@@ -2878,34 +3002,34 @@
         // ===================== ADMIN OPEN/CLOSE =====================
         function getCreds() { try { return JSON.parse(localStorage.getItem(ADMIN_CREDS_KEY)) || { user: 'admin', pass: 'admin2026' }; } catch { return { user: 'admin', pass: 'admin2026' }; } }
         function openAdmin() {
-                if (!isAdminLoggedIn) {
-                    document.getElementById('login-overlay').classList.add('show');
-                    setTimeout(() => document.getElementById('login-user').focus(), 100);
-                    return;
-                }
-
-                const d = loadData();
-                document.getElementById('a-logo-img').value = d.header.logoImg || '';
-                document.getElementById('a-shop-name').value = d.header.shopName || '';
-                document.getElementById('a-shop-desc').value = d.header.shopDesc || '';
-                document.getElementById('a-status-text').value = d.header.statusText || '';
-                document.getElementById('a-queue-text').value = d.header.queueText || '';
-                document.getElementById('a-queue-link').value = d.header.queueLink || '';
-                document.getElementById('a-detail-title').value = d.header.detailTitle || '';
-                document.getElementById('a-detail-img').value = d.header.detailImg || '';
-                document.getElementById('a-footer-name').value = d.footer.name || '';
-                document.getElementById('a-footer-text').value = d.footer.text || '';
-                const gs = getGsConfig();
-                document.getElementById('gs-webapp-url').value = gs.webAppUrl || '';
-                document.getElementById('gs-sheet-id').value = gs.sheetId || '';
-                document.getElementById('gs-api-key').value = gs.apiKey || '';
-                fillColorAdmin(loadColors());
-                loadBgImageSettings();
-                renderAdminSections();
-                renderContactAdmin();
-                renderFontGrid();
-                document.getElementById('admin-overlay').classList.add('show');
+            if (!isAdminLoggedIn) {
+                document.getElementById('login-overlay').classList.add('show');
+                setTimeout(() => document.getElementById('login-user').focus(), 100);
+                return;
             }
+
+            const d = loadData();
+            document.getElementById('a-logo-img').value = d.header.logoImg || '';
+            document.getElementById('a-shop-name').value = d.header.shopName || '';
+            document.getElementById('a-shop-desc').value = d.header.shopDesc || '';
+            document.getElementById('a-status-text').value = d.header.statusText || '';
+            document.getElementById('a-queue-text').value = d.header.queueText || '';
+            document.getElementById('a-queue-link').value = d.header.queueLink || '';
+            document.getElementById('a-detail-title').value = d.header.detailTitle || '';
+            document.getElementById('a-detail-img').value = d.header.detailImg || '';
+            document.getElementById('a-footer-name').value = d.footer.name || '';
+            document.getElementById('a-footer-text').value = d.footer.text || '';
+            const gs = getGsConfig();
+            document.getElementById('gs-webapp-url').value = gs.webAppUrl || '';
+            document.getElementById('gs-sheet-id').value = gs.sheetId || '';
+            document.getElementById('gs-api-key').value = gs.apiKey || '';
+            fillColorAdmin(loadColors());
+            loadBgImageSettings();
+            renderAdminSections();
+            renderContactAdmin();
+            renderFontGrid();
+            document.getElementById('admin-overlay').classList.add('show');
+        }
         function closeAdmin() { document.getElementById('admin-overlay').classList.remove('show'); }
         function closeLogin() { document.getElementById('login-overlay').classList.remove('show'); document.getElementById('login-user').value = ''; document.getElementById('login-pass').value = ''; }
         function doLogin() {
@@ -3028,7 +3152,7 @@
 
         function resetCreds() {
             if (!isAdminLoggedIn) { showToast('⛔ กรุณา Login ก่อน', 'error'); return; }
-            showModal({ icon: 'warning', title: 'รีเซ็ตข้อมูล Admin?', html: 'จะรีเซ็ต Username และ Password กลับเป็น<br><b style="color:var(--main);">admin / fumiko2026</b><br><small style="color:rgba(255,255,255,0.4);">ระบบจะ Logout อัตโนมัติ</small>', confirmText: 'รีเซ็ต', cancelText: 'ยกเลิก', dangerConfirm: true }).then(r => {
+            showModal({ icon: 'warning', title: 'รีเซ็ตข้อมูล Admin?', html: 'จะรีเซ็ต Username และ Password กลับเป็น<br><b style="color:var(--main);">admin / admin2026</b><br><small style="color:rgba(255,255,255,0.4);">ระบบจะ Logout อัตโนมัติ</small>', confirmText: 'รีเซ็ต', cancelText: 'ยกเลิก', dangerConfirm: true }).then(r => {
                 if (!r.isConfirmed) return;
                 localStorage.removeItem(ADMIN_CREDS_KEY);
                 showToast('↩️ รีเซ็ตเรียบร้อย — กรุณา Login ใหม่', 'info', 3500);
@@ -3041,173 +3165,186 @@
         function importData(e) { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = ev => { try { const d = JSON.parse(ev.target.result); saveData(d, true, true); showToast('✅ นำเข้าข้อมูลสำเร็จ'); openAdmin(); } catch { showModal({ icon: 'error', title: 'ไฟล์ไม่ถูกต้อง', html: 'กรุณาเลือกไฟล์ JSON', confirmText: 'ตกลง' }); } }; r.readAsText(f); e.target.value = ''; }
         function syncWithGoogleSheets() { showModal({ icon: 'question', title: 'Sync Google Sheets', html: 'เลือกทิศทาง', confirmText: '📤 อัปโหลด', cancelText: '📥 ดาวน์โหลด' }).then(r => { if (r.isConfirmed) saveToGoogleSheets(loadData()).then(() => showToast('✅ อัปโหลดแล้ว')); else if (r.dismiss === 'cancel') loadFromGoogleSheets(true); }); }
 
-        // ===================== SYNC HELPER =====================
-        function syncWithGoogleSheets() {
-            showModal({
-                icon: 'question', title: 'Sync Google Sheets', html: 'เลือกทิศทาง',
-                confirmText: '📤 อัปโหลด', cancelText: '📥 ดาวน์โหลด'
-            }).then(r => {
-                if (r.isConfirmed) saveToGoogleSheets(loadData()).then(() => showToast('✅ อัปโหลดแล้ว'));
-                else if (r.dismiss === 'cancel') loadFromGoogleSheets(true);
-            });
+        // ===================== BACKGROUND IMAGE =====================
+        const BG_IMAGE_KEY = 'fumiko_bg_image';
+
+        function getBgImageConfig() {
+            try {
+                return JSON.parse(localStorage.getItem(BG_IMAGE_KEY)) || {
+                    type: 'color',
+                    url: '',
+                    size: 'cover',
+                    repeat: 'no-repeat',
+                    position: 'center'
+                };
+            } catch {
+                return {
+                    type: 'color',
+                    url: '',
+                    size: 'cover',
+                    repeat: 'no-repeat',
+                    position: 'center'
+                };
+            }
         }
 
-        // ===================== BACKGROUND IMAGE ===================== 👈 วางตรงนี้
-            const BG_IMAGE_KEY = 'fumiko_bg_image';
+        function applyBgImage() {
+            let config = getBgImageConfig();
+            const body = document.body;
 
-            function getBgImageConfig() {
-                try {
-                    return JSON.parse(localStorage.getItem(BG_IMAGE_KEY)) || {
-                        type: 'color',
-                        url: '',
-                        size: 'cover',
-                        repeat: 'no-repeat',
-                        position: 'center'
-                    };
-                } catch {
-                    return {
-                        type: 'color',
-                        url: '',
-                        size: 'cover',
-                        repeat: 'no-repeat',
-                        position: 'center'
-                    };
+            // โหลดข้อมูลจาก localStorage เพื่อเช็คว่ามี bgImage หรือไม่
+            try {
+                const data = JSON.parse(localStorage.getItem(DATA_KEY) || '{}');
+                if (data.bgImage) {
+                    localStorage.setItem(BG_IMAGE_KEY, JSON.stringify(data.bgImage));
+                    config = data.bgImage;
                 }
+            } catch (e) {
+                console.log('No bgImage in data');
             }
 
-            function applyBgImage() {
-                const config = getBgImageConfig();
-                const body = document.body;
+            if (config.type === 'image' && config.url) {
+                body.style.backgroundImage = `url('${config.url}')`;
+                body.style.backgroundSize = config.size;
+                body.style.backgroundRepeat = config.repeat;
+                body.style.backgroundPosition = config.position;
+                body.style.backgroundAttachment = 'fixed';
 
-                if (config.type === 'image' && config.url) {
-                    body.style.backgroundImage = `url('${config.url}')`;
-                    body.style.backgroundSize = config.size;
-                    body.style.backgroundRepeat = config.repeat;
-                    body.style.backgroundPosition = config.position;
-                    body.style.backgroundAttachment = 'fixed';
-
-                    if (!document.getElementById('bg-overlay')) {
-                        const overlay = document.createElement('div');
-                        overlay.id = 'bg-overlay';
-                        overlay.style.cssText = `
+                if (!document.getElementById('bg-overlay')) {
+                    const overlay = document.createElement('div');
+                    overlay.id = 'bg-overlay';
+                    overlay.style.cssText = `
                         position: fixed;
                         inset: 0;
                         background: rgba(0,0,0,0.5);
                         pointer-events: none;
                         z-index: 0;
                     `;
-                        body.appendChild(overlay);
-                    }
-                } else {
-                    body.style.backgroundImage = '';
-                    body.style.backgroundSize = '';
-                    body.style.backgroundRepeat = '';
-                    body.style.backgroundPosition = '';
-                    const overlay = document.getElementById('bg-overlay');
-                    if (overlay) overlay.remove();
-
-                    const colors = loadColors();
-                    body.style.background = colors.bg;
+                    body.appendChild(overlay);
                 }
+            } else {
+                body.style.backgroundImage = '';
+                body.style.backgroundSize = '';
+                body.style.backgroundRepeat = '';
+                body.style.backgroundPosition = '';
+                const overlay = document.getElementById('bg-overlay');
+                if (overlay) overlay.remove();
+
+                const colors = loadColors();
+                body.style.background = colors.bg;
+            }
+        }
+
+        function toggleBgType() {
+            const typeColor = document.getElementById('bg-type-color');
+            const typeImage = document.getElementById('bg-type-image');
+            const imageSettings = document.getElementById('bg-image-settings');
+
+            if (typeImage.checked) {
+                imageSettings.style.display = 'block';
+            } else {
+                imageSettings.style.display = 'none';
             }
 
-            function toggleBgType() {
-                const typeColor = document.getElementById('bg-type-color');
-                const typeImage = document.getElementById('bg-type-image');
-                const imageSettings = document.getElementById('bg-image-settings');
+            const config = getBgImageConfig();
+            config.type = typeImage.checked ? 'image' : 'color';
+            localStorage.setItem(BG_IMAGE_KEY, JSON.stringify(config));
 
-                if (typeImage.checked) {
-                    imageSettings.style.display = 'block';
-                } else {
-                    imageSettings.style.display = 'none';
-                }
-
-                const config = getBgImageConfig();
-                config.type = typeImage.checked ? 'image' : 'color';
-                localStorage.setItem(BG_IMAGE_KEY, JSON.stringify(config));
-
-                if (typeImage.checked) {
-                    updateBgImage();
-                } else {
-                    applyBgImage();
-                }
-            }
-
-            function updateBgImage() {
-                const url = document.getElementById('bg-image-url').value.trim();
-                const size = document.getElementById('bg-image-size').value;
-                const repeat = document.getElementById('bg-image-repeat').value;
-                const position = document.getElementById('bg-image-position').value;
-
-                const config = {
-                    type: 'image',
-                    url: url,
-                    size: size,
-                    repeat: repeat,
-                    position: position
-                };
-
-                localStorage.setItem(BG_IMAGE_KEY, JSON.stringify(config));
-
-                const preview = document.getElementById('bg-image-preview');
-                if (preview && url) {
-                    preview.style.backgroundImage = `url('${url}')`;
-                    preview.style.backgroundSize = size;
-                    preview.style.backgroundRepeat = repeat;
-                    preview.style.backgroundPosition = position;
-                }
-
+            if (typeImage.checked) {
+                updateBgImage();
+            } else {
                 applyBgImage();
             }
+        }
 
-            function loadBgImageSettings() {
-                const config = getBgImageConfig();
+        function updateBgImage() {
+            const url = document.getElementById('bg-image-url').value.trim();
+            const size = document.getElementById('bg-image-size').value;
+            const repeat = document.getElementById('bg-image-repeat').value;
+            const position = document.getElementById('bg-image-position').value;
 
-                if (config.type === 'image') {
-                    document.getElementById('bg-type-image').checked = true;
-                    document.getElementById('bg-image-settings').style.display = 'block';
-                } else {
-                    document.getElementById('bg-type-color').checked = true;
-                    document.getElementById('bg-image-settings').style.display = 'none';
-                }
+            const config = {
+                type: 'image',
+                url: url,
+                size: size,
+                repeat: repeat,
+                position: position
+            };
 
-                document.getElementById('bg-image-url').value = config.url || '';
-                document.getElementById('bg-image-size').value = config.size || 'cover';
-                document.getElementById('bg-image-repeat').value = config.repeat || 'no-repeat';
-                document.getElementById('bg-image-position').value = config.position || 'center';
+            localStorage.setItem(BG_IMAGE_KEY, JSON.stringify(config));
 
-                const preview = document.getElementById('bg-image-preview');
-                if (preview && config.url) {
-                    preview.style.backgroundImage = `url('${config.url}')`;
-                    preview.style.backgroundSize = config.size;
-                    preview.style.backgroundRepeat = config.repeat;
-                    preview.style.backgroundPosition = config.position;
-                }
+            // บันทึกการตั้งค่าพื้นหลังลงใน data และอัปโหลดไป Sheets
+            const data = loadData();
+            data.bgImage = config;
+            saveData(data, false, true); // บันทึกโดยไม่แสดง Toast และเพิ่ม history
+
+            const preview = document.getElementById('bg-image-preview');
+            if (preview && url) {
+                preview.style.backgroundImage = `url('${url}')`;
+                preview.style.backgroundSize = size;
+                preview.style.backgroundRepeat = repeat;
+                preview.style.backgroundPosition = position;
             }
+
+            applyBgImage();
+        }
+
+        function loadBgImageSettings() {
+            const config = getBgImageConfig();
+
+            if (config.type === 'image') {
+                document.getElementById('bg-type-image').checked = true;
+                document.getElementById('bg-image-settings').style.display = 'block';
+            } else {
+                document.getElementById('bg-type-color').checked = true;
+                document.getElementById('bg-image-settings').style.display = 'none';
+            }
+
+            document.getElementById('bg-image-url').value = config.url || '';
+            document.getElementById('bg-image-size').value = config.size || 'cover';
+            document.getElementById('bg-image-repeat').value = config.repeat || 'no-repeat';
+            document.getElementById('bg-image-position').value = config.position || 'center';
+
+            const preview = document.getElementById('bg-image-preview');
+            if (preview && config.url) {
+                preview.style.backgroundImage = `url('${config.url}')`;
+                preview.style.backgroundSize = config.size;
+                preview.style.backgroundRepeat = config.repeat;
+                preview.style.backgroundPosition = config.position;
+            }
+        }
 
         // ===================== INIT =====================
+        // 🔥 แก้ไข: โหลดจาก Google Sheets ทุกครั้ง
         async function initApp() {
-                applyFont(selectedFont);
-                applyColors(loadColors());
-                applyBgImage(); // เพิ่มบรรทัดนี้
+            applyFont(selectedFont);
+            applyColors(loadColors());
 
-                const gsUrl = GS_WEBAPP_URL || (() => {
-                    try {
-                        return JSON.parse(localStorage.getItem(GS_CONFIG_KEY) || '{}').webAppUrl || '';
-                    } catch {
-                        return '';
-                    }
-                })();
-
-                if (gsUrl) {
-                    const ok = await loadFromGoogleSheets(false);
-                    if (ok) console.log('✅ Loaded from Google Sheets');
-                    else console.warn('⚠️ Using cached/default data');
+            const gsUrl = GS_WEBAPP_URL || (() => {
+                try {
+                    return JSON.parse(localStorage.getItem(GS_CONFIG_KEY) || '{}').webAppUrl || '';
+                } catch {
+                    return '';
                 }
+            })();
 
-                renderSite();
-                document.getElementById('loading-overlay').classList.add('hidden');
+            if (gsUrl) {
+                // โหลดจาก Google Sheets ทุกครั้ง (ไม่สนใจ LocalStorage)
+                console.log('🔄 Loading from Google Sheets...');
+                const ok = await loadFromGoogleSheets(false);
+                if (ok) {
+                    console.log('✅ Loaded from Google Sheets');
+                } else {
+                    console.log('⚠️ Failed to load from Sheets, using local data');
+                }
             }
+
+            // โหลดการตั้งค่าพื้นหลังหลังจากได้ข้อมูล
+            applyBgImage();
+
+            renderSite();
+            document.getElementById('loading-overlay').classList.add('hidden');
+        }
 
         // Event Listeners
         document.getElementById('admin-fab').addEventListener('click', openAdmin);
@@ -3222,4 +3359,3 @@
 </body>
 
 </html>
-
