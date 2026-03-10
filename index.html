@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="https://img2.pic.in.th/pic/NEXO-SHOP-2-Photoroom.png" type="image/png"
         sizes="16x16">
-    <title>NEXO BIO V2 - Custom Font Support</title>
+    <title>NEXO BIO V2 - Universal Font Support</title>
     <!-- Font imports เหมือนเดิม -->
     <link
         href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Sarabun:wght@300;400;500&family=Kanit:wght@300;400;500;600&family=Prompt:wght@300;400;500;600&family=Charm:wght@400;700&family=Itim&family=Kodchasan:wght@300;400;500;600&family=Krub:wght@300;400;500;600&family=Mali:wght@300;400;500;600&family=Noto+Sans+Thai:wght@300;400;500;600&family=Noto+Serif+Thai:wght@300;400;500;600&family=Pridi:wght@300;400;500;600&family=Taviraj:wght@300;400;500;600&family=Trirong:wght@300;400;500;600&family=Srisakdi:wght@400;700&family=Bai+Jamjuree:wght@300;400;500;600&family=Chonburi&family=Athiti:wght@300;400;500;600&family=Fahkwang:wght@300;400;500;600&family=K2D:wght@300;400;500;600&display=swap"
@@ -1510,6 +1510,29 @@
             border-color: transparent;
         }
 
+        .font-test-input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--main);
+            border-radius: 8px;
+            color: white;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .font-test-text {
+            font-family: var(--font-main);
+            font-size: 20px;
+            padding: 15px;
+            background: rgba(187, 134, 252, 0.1);
+            border-radius: 8px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            min-height: 100px;
+        }
+
         @media(max-width: 500px) {
             .do-dont-grid {
                 grid-template-columns: 1fr !important;
@@ -1729,7 +1752,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- ส่วนสีอื่นๆ เหมือนเดิม -->
+                <!-- ส่วนสีอื่นๆ เหมือนเดิม แต่ย่อให้สั้นลงเพื่อความกระชับ -->
                 <div style="display:flex;gap:10px;flex-wrap:wrap;">
                     <button onclick="saveColors()" class="admin-btn-save"><i
                             class="fas fa-save"></i>บันทึกสีทั้งหมด</button>
@@ -1737,7 +1760,7 @@
                             class="fas fa-undo"></i>รีเซ็ตค่าเริ่มต้น</button>
                 </div>
             </div>
-            <!-- Tab: Font (ปรับปรุงใหม่) -->
+            <!-- Tab: Font (ปรับปรุงใหม่ - รองรับทุกภาษา) -->
             <div id="tab-font" class="tab-content">
                 <div class="admin-section">
                     <div class="admin-section-title"><i class="fas fa-font"
@@ -1761,21 +1784,21 @@
                     </div>
                 </div>
 
-                <!-- ส่วนอัปโหลดฟอนต์ -->
+                <!-- ส่วนอัปโหลดฟอนต์ - รองรับทุกภาษา -->
                 <div id="custom-font-section" style="display:none;">
                     <div class="admin-section">
                         <div class="admin-section-title"><i class="fas fa-upload"
                                 style="color:var(--main);"></i>อัปโหลดฟอนต์ .ttf</div>
                         <div class="info-box">
-                            <i class="fas fa-info-circle"></i> อัปโหลดไฟล์ฟอนต์ .ttf เพื่อใช้งานฟอนต์ของคุณเอง
-                            (ขนาดไม่เกิน 5MB)
+                            <i class="fas fa-info-circle"></i> รองรับฟอนต์ทุกภาษา ทุกสกุล (ไทย, อังกฤษ, จีน, ญี่ปุ่น,
+                            อาหรับ, ฯลฯ) ขนาดไม่เกิน 5MB
                         </div>
                         <div class="font-upload-area" onclick="document.getElementById('font-file-input').click()">
                             <i class="fas fa-cloud-upload-alt"></i>
                             <div>คลิกเพื่อเลือกไฟล์ .ttf</div>
                             <div style="font-size:0.8rem;color:var(--text-muted);margin-top:5px;">หรือลากไฟล์มาวาง</div>
                         </div>
-                        <input type="file" id="font-file-input" accept=".ttf,.ttf" style="display:none;"
+                        <input type="file" id="font-file-input" accept=".ttf,.ttf,.otf" style="display:none;"
                             onchange="handleFontUpload(event)">
 
                         <div id="font-upload-status" style="margin-top:15px;"></div>
@@ -1790,8 +1813,25 @@
                                     <i class="fas fa-trash"></i> ลบฟอนต์
                                 </span>
                             </div>
+
+                            <!-- ทดสอบฟอนต์ทุกภาษา -->
+                            <div style="margin-top:15px;">
+                                <div style="font-size:0.9rem;color:var(--main);margin-bottom:8px;">🔤 ทดสอบฟอนต์ทุกภาษา:
+                                </div>
+                                <input type="text" id="font-test-input" class="font-test-input"
+                                    placeholder="พิมพ์ข้อความที่ต้องการทดสอบ..." value="Hello こんにちは 你好 안녕하세요 مرحبا 123">
+                                <div id="font-test-display" class="font-test-text"
+                                    style="font-family: 'CustomUploadedFont', sans-serif;">
+                                    Hello こんにちは 你好 안녕하세요 مرحبا 123
+                                </div>
+                                <div style="font-size:0.8rem;color:var(--text-muted);margin-top:5px;">
+                                    ทดสอบภาษา: ไทย (กขคง), อังกฤษ (ABC), จีน (你好), ญี่ปุ่น (こんにちは), เกาหลี (안녕하세요),
+                                    อาหรับ (مرحبا)
+                                </div>
+                            </div>
+
                             <div class="custom-font-preview" id="custom-font-preview">
-                                ตัวอย่างฟอนต์ภาษาไทย กขคง 123
+                                ตัวอย่างฟอนต์: กขคง ABC 123
                             </div>
                         </div>
                     </div>
@@ -2143,7 +2183,7 @@
             document.documentElement.style.setProperty('--' + k, v);
         }
 
-        // ===================== FONTS (ปรับปรุงใหม่) =====================
+        // ===================== FONTS (ปรับปรุงใหม่ - รองรับทุกภาษา) =====================
         const THAI_FONTS = [{
             name: 'Mitr'
         }, {
@@ -2258,17 +2298,18 @@
             }
         }
 
-        // จัดการอัปโหลดฟอนต์
+        // จัดการอัปโหลดฟอนต์ - รองรับทุกภาษา
         function handleFontUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
 
-            // ตรวจสอบนามสกุลไฟล์
-            if (!file.name.toLowerCase().endsWith('.ttf')) {
+            // ตรวจสอบนามสกุลไฟล์ - รองรับ .ttf และ .otf
+            const fileName = file.name.toLowerCase();
+            if (!fileName.endsWith('.ttf') && !fileName.endsWith('.otf')) {
                 showModal({
                     icon: 'error',
                     title: 'ไฟล์ไม่ถูกต้อง',
-                    html: 'กรุณาอัปโหลดไฟล์ .ttf เท่านั้น',
+                    html: 'กรุณาอัปโหลดไฟล์ .ttf หรือ .otf เท่านั้น',
                     confirmText: 'ตกลง'
                 });
                 return;
@@ -2291,11 +2332,15 @@
             const reader = new FileReader();
             reader.onload = function (e) {
                 const base64Data = e.target.result.split(',')[1]; // ตัด data:application/... ออก
-                const fontName = file.name.replace('.ttf', '').replace(/_/g, ' ').replace(/-/g, ' ');
+                const fontName = file.name.replace(/\.(ttf|otf)$/i, '').replace(/[_-]/g, ' ');
+
+                // ตรวจสอบประเภทไฟล์จาก MIME type หรือนามสกุล
+                const fileExt = fileName.endsWith('.ttf') ? 'truetype' : 'opentype';
 
                 const fontData = {
                     name: fontName,
                     data: base64Data,
+                    format: fileExt, // เก็บ format สำหรับ @font-face
                     size: file.size,
                     timestamp: new Date().toISOString()
                 };
@@ -2315,7 +2360,7 @@
             reader.readAsDataURL(file);
         }
 
-        // เพิ่มฟอนต์ที่อัปโหลดลงใน CSS
+        // เพิ่มฟอนต์ที่อัปโหลดลงใน CSS - รองรับทุกภาษา
         function injectCustomFont() {
             if (!customFontData) return false;
 
@@ -2328,16 +2373,24 @@
                     document.head.appendChild(styleEl);
                 }
 
+                // ใช้ format ที่ถูกต้องตามประเภทไฟล์
+                const format = customFontData.format || 'truetype';
+
                 const fontFace = `
                     @font-face {
                         font-family: 'CustomUploadedFont';
-                        src: url(data:font/ttf;base64,${customFontData.data}) format('truetype');
+                        src: url(data:font/${format === 'truetype' ? 'ttf' : 'otf'};base64,${customFontData.data}) format('${format}');
                         font-weight: normal;
                         font-style: normal;
                         font-display: swap;
+                        unicode-range: U+0000-10FFFF; /* รองรับทุกภาษา */
                     }
                 `;
                 styleEl.textContent = fontFace;
+
+                // อัปเดตตัวอย่างฟอนต์
+                updateFontPreview();
+
                 return true;
             } catch (e) {
                 console.log('Error injecting custom font:', e);
@@ -2345,16 +2398,39 @@
             }
         }
 
+        // อัปเดตตัวอย่างฟอนต์
+        function updateFontPreview() {
+            const preview = document.getElementById('custom-font-preview');
+            const testDisplay = document.getElementById('font-test-display');
+            const testInput = document.getElementById('font-test-input');
+
+            if (preview) {
+                preview.style.fontFamily = 'CustomUploadedFont, sans-serif';
+            }
+
+            if (testDisplay) {
+                testDisplay.style.fontFamily = 'CustomUploadedFont, sans-serif';
+            }
+
+            if (testInput) {
+                testInput.addEventListener('input', function () {
+                    if (testDisplay) {
+                        testDisplay.textContent = this.value || 'Hello こんにちは 你好 안녕하세요 مرحبا 123';
+                    }
+                });
+            }
+        }
+
         // ทดสอบฟอนต์ที่อัปโหลด
         function testCustomFont() {
             if (fontType === 'custom' && customFontData) {
                 applyFont('CustomUploadedFont');
-                showToast('✅ ใช้ฟอนต์ที่อัปโหลดแล้ว');
+                showToast('✅ ใช้ฟอนต์ที่อัปโหลดแล้ว (รองรับทุกภาษา)');
             } else if (fontType === 'custom' && !customFontData) {
                 showModal({
                     icon: 'warning',
                     title: 'ไม่มีฟอนต์',
-                    html: 'กรุณาอัปโหลดฟอนต์ .ttf ก่อน',
+                    html: 'กรุณาอัปโหลดฟอนต์ .ttf หรือ .otf ก่อน',
                     confirmText: 'ตกลง'
                 });
             } else {
@@ -2368,6 +2444,8 @@
             const infoDiv = document.getElementById('custom-font-info');
             const nameSpan = document.getElementById('custom-font-name');
             const previewDiv = document.getElementById('custom-font-preview');
+            const testInput = document.getElementById('font-test-input');
+            const testDisplay = document.getElementById('font-test-display');
 
             if (customFontData) {
                 infoDiv.style.display = 'block';
@@ -2375,7 +2453,15 @@
 
                 // ทดสอบแสดงตัวอย่างด้วยฟอนต์ที่อัปโหลด
                 injectCustomFont();
-                previewDiv.style.fontFamily = 'CustomUploadedFont, sans-serif';
+
+                if (previewDiv) {
+                    previewDiv.style.fontFamily = 'CustomUploadedFont, sans-serif';
+                }
+
+                if (testDisplay) {
+                    testDisplay.style.fontFamily = 'CustomUploadedFont, sans-serif';
+                    testDisplay.textContent = testInput ? (testInput.value || 'Hello こんにちは 你好 안녕하세요 مرحبا 123') : 'Hello こんにちは 你好 안녕하세요 مرحبا 123';
+                }
             } else {
                 infoDiv.style.display = 'none';
             }
@@ -2417,10 +2503,11 @@
 
         function applyFont(f) {
             if (fontType === 'custom' && customFontData) {
-                // ใช้ฟอนต์ที่อัปโหลด
+                // ใช้ฟอนต์ที่อัปโหลด - รองรับทุกภาษา
                 injectCustomFont();
                 document.documentElement.style.setProperty('--font-main', `'CustomUploadedFont', sans-serif`);
                 document.body.style.fontFamily = `'CustomUploadedFont', sans-serif`;
+                showToast('✅ ใช้ฟอนต์ที่อัปโหลด (รองรับทุกภาษา)');
             } else {
                 // ใช้ Google Fonts
                 selectedFont = f;
@@ -2467,7 +2554,7 @@
                 localStorage.setItem(DATA_KEY, JSON.stringify(d));
                 saveToGoogleSheets(d);
 
-                showToast('✅ บันทึกฟอนต์ที่อัปโหลดแล้ว');
+                showToast('✅ บันทึกฟอนต์ที่อัปโหลดแล้ว (รองรับทุกภาษา)');
             } else {
                 // บันทึกการใช้ Google Fonts
                 localStorage.setItem(FONT_TYPE_KEY, 'google');
@@ -3220,7 +3307,7 @@
                 applyBgImage();
             }
 
-            // ใช้ฟอนต์ตามที่เลือก
+            // ใช้ฟอนต์ตามที่เลือก - รองรับทุกภาษา
             applyCurrentFont();
 
             renderBgEmojis(data.bgEmojis);
@@ -4051,7 +4138,7 @@
             fontType = localStorage.getItem(FONT_TYPE_KEY) || 'google';
             selectedFont = localStorage.getItem(FONT_KEY) || 'Mitr';
 
-            // ใช้ฟอนต์ตามที่เลือก
+            // ใช้ฟอนต์ตามที่เลือก - รองรับทุกภาษา
             applyCurrentFont();
 
             applyColors(loadColors());
